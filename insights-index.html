@@ -355,11 +355,37 @@
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <div class="glass-card rounded-xl p-6 shadow-lg">
                             <h3 class="text-xl font-bold text-slate-800 mb-4">Insights by Category</h3>
-                            <canvas id="categoryChart"></canvas>
+                            <div class="h-80">
+                                <canvas id="categoryChart" width="400" height="320"></canvas>
+                            </div>
                         </div>
                         <div class="glass-card rounded-xl p-6 shadow-lg">
                             <h3 class="text-xl font-bold text-slate-800 mb-4">Wealth Segment Distribution</h3>
-                            <canvas id="segmentChart"></canvas>
+                            <div class="h-80">
+                                <canvas id="segmentChart" width="400" height="320"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Additional Analytics Cards -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+                        <div class="glass-card rounded-xl p-6 shadow-lg">
+                            <h4 class="text-lg font-bold text-slate-800 mb-4">Priority Distribution</h4>
+                            <div id="priorityStats" class="space-y-3">
+                                <!-- Priority stats will be populated here -->
+                            </div>
+                        </div>
+                        <div class="glass-card rounded-xl p-6 shadow-lg">
+                            <h4 class="text-lg font-bold text-slate-800 mb-4">Status Overview</h4>
+                            <div id="statusStats" class="space-y-3">
+                                <!-- Status stats will be populated here -->
+                            </div>
+                        </div>
+                        <div class="glass-card rounded-xl p-6 shadow-lg">
+                            <h4 class="text-lg font-bold text-slate-800 mb-4">Recent Activity</h4>
+                            <div id="activityStats" class="space-y-3">
+                                <!-- Activity stats will be populated here -->
+                            </div>
                         </div>
                     </div>
                 </div>

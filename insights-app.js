@@ -818,7 +818,8 @@ class InsightsManagementApp {
     renderReports() {
         setTimeout(() => {
             this.initializeCharts();
-        }, 100);
+            this.renderAdditionalAnalytics();
+        }, 200);
     }
 
     getFilteredInsights() {
@@ -1209,7 +1210,10 @@ class InsightsManagementApp {
                     },
                     scales: {
                         y: {
-                            beginAtZero: true
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
                         }
                     }
                 }
@@ -1236,7 +1240,8 @@ class InsightsManagementApp {
                             '#f093fb',
                             '#4facfe',
                             '#43e97b'
-                        ]
+                        ],
+                        borderWidth: 0
                     }]
                 },
                 options: {
@@ -1244,12 +1249,114 @@ class InsightsManagementApp {
                     maintainAspectRatio: false,
                     plugins: {
                         legend: {
-                            position: 'bottom'
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true
+                            }
                         }
                     }
                 }
             });
         }
+    }
+
+    renderAdditionalAnalytics() {
+        // Priority Distribution
+        const priorityContainer = document.getElementById('priorityStats');
+        const priorityStats = {
+            high: this.insights.filter(i => i.priority === 'high').length,
+            medium: this.insights.filter(i => i.priority === 'medium').length,
+            low: this.insights.filter(i => i.priority === 'low').length
+        };
+
+        priorityContainer.innerHTML = `
+            <div class="flex justify-between items-center">
+                <span class="text-sm text-slate-600">High Priority</span>
+                <div class="flex items-center space-x-2">
+                    <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                    <span class="font-bold text-slate-800">${priorityStats.high}</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center">
+                <span class="text-sm text-slate-600">Medium Priority</span>
+                <div class="flex items-center space-x-2">
+                    <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                    <span class="font-bold text-slate-800">${priorityStats.medium}</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center">
+                <span class="text-sm text-slate-600">Low Priority</span>
+                <div class="flex items-center space-x-2">
+                    <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                    <span class="font-bold text-slate-800">${priorityStats.low}</span>
+                </div>
+            </div>
+        `;
+
+        // Status Overview
+        const statusContainer = document.getElementById('statusStats');
+        const statusStats = {
+            active: this.insights.filter(i => i.status === 'active').length,
+            logged: this.insights.filter(i => i.status === 'logged').length,
+            dismissed: this.insights.filter(i => i.status === 'dismissed').length
+        };
+
+        statusContainer.innerHTML = `
+            <div class="flex justify-between items-center">
+                <span class="text-sm text-slate-600">Active</span>
+                <div class="flex items-center space-x-2">
+                    <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
+                    <span class="font-bold text-slate-800">${statusStats.active}</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center">
+                <span class="text-sm text-slate-600">Logged to CRM</span>
+                <div class="flex items-center space-x-2">
+                    <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                    <span class="font-bold text-slate-800">${statusStats.logged}</span>
+                </div>
+            </div>
+            <div class="flex justify-between items-center">
+                <span class="text-sm text-slate-600">Dismissed</span>
+                <div class="flex items-center space-x-2">
+                    <div class="w-3 h-3 bg-gray-500 rounded-full"></div>
+                    <span class="font-bold text-slate-800">${statusStats.dismissed}</span>
+                </div>
+            </div>
+        `;
+
+        // Recent Activity
+        const activityContainer = document.getElementById('activityStats');
+        const totalValue = this.insights.reduce((sum, insight) => sum + (insight.potentialValue || 0), 0);
+        const avgValue = totalValue / this.insights.length;
+        const topCategories = this.categories
+            .map(cat => ({
+                name: cat.name,
+                count: this.insights.filter(i => i.categoryId === cat.id).length
+            }))
+            .sort((a, b) => b.count - a.count)
+            .slice(0, 3);
+
+        activityContainer.innerHTML = `
+            <div class="text-center">
+                <div class="text-2xl font-bold text-green-600">$${totalValue.toLocaleString()}</div>
+                <div class="text-xs text-slate-600">Total Potential Value</div>
+            </div>
+            <div class="text-center">
+                <div class="text-lg font-bold text-blue-600">$${Math.round(avgValue).toLocaleString()}</div>
+                <div class="text-xs text-slate-600">Average Insight Value</div>
+            </div>
+            <div class="space-y-1">
+                <div class="text-xs font-semibold text-slate-700">Top Categories:</div>
+                ${topCategories.map(cat => `
+                    <div class="flex justify-between text-xs">
+                        <span class="text-slate-600">${cat.name}</span>
+                        <span class="font-medium">${cat.count}</span>
+                    </div>
+                `).join('')}
+            </div>
+        `;
     }
 
     showLoading(show) {
