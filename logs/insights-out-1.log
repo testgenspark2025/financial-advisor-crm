@@ -77,3 +77,15 @@
 2025-08-31T16:46:57:   POST /api/insights/dismiss - Dismiss insight
 2025-08-31T16:46:57:   POST /api/insights/rate - Rate insight usefulness
 2025-08-31T16:46:57:   GET  /api/insights/dashboard/stats - Dashboard statistics
+2025-08-31T16:50:28: Generated 250 clients and 1324 insights across 34 categories
+2025-08-31T16:50:28: Insights Management server running at http://0.0.0.0:3001
+2025-08-31T16:50:28: Available endpoints:
+2025-08-31T16:50:28:   GET  / - Financial Advisor Outlook application
+2025-08-31T16:50:28:   GET  /insights - Insights Management application
+2025-08-31T16:50:28:   GET  /api/insights/all - Get all insights
+2025-08-31T16:50:28:   GET  /api/insights/clients - Get all clients
+2025-08-31T16:50:28:   GET  /api/insights/categories - Get all categories
+2025-08-31T16:50:28:   POST /api/insights/log-to-crm - Log insight to CRM
+2025-08-31T16:50:28:   POST /api/insights/dismiss - Dismiss insight
+2025-08-31T16:50:28:   POST /api/insights/rate - Rate insight usefulness
+2025-08-31T16:50:28:   GET  /api/insights/dashboard/stats - Dashboard statistics
