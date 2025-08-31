@@ -669,8 +669,32 @@ class InsightsManagementApp {
             this.closeModal();
         });
 
-        document.getElementById('logToCRM').addEventListener('click', () => {
-            this.logInsightToCRM();
+        document.getElementById('pushToSalesforce').addEventListener('click', () => {
+            this.pushToSalesforce();
+        });
+
+        document.getElementById('pushToRedtail').addEventListener('click', () => {
+            this.pushToRedtail();
+        });
+
+        document.getElementById('pushToJump').addEventListener('click', () => {
+            this.pushToJump();
+        });
+
+        document.getElementById('scheduleMeeting').addEventListener('click', () => {
+            this.scheduleMeeting();
+        });
+
+        document.getElementById('callClient').addEventListener('click', () => {
+            this.callClient();
+        });
+
+        document.getElementById('emailClient').addEventListener('click', () => {
+            this.emailClient();
+        });
+
+        document.getElementById('chatClient').addEventListener('click', () => {
+            this.chatClient();
         });
 
         document.getElementById('dismissInsight').addEventListener('click', () => {
@@ -698,7 +722,7 @@ class InsightsManagementApp {
         const titles = {
             dashboard: 'Dashboard',
             insights: 'All Insights',
-            clients: 'Client Portfolio',
+            clients: 'Client List',
             categories: 'Insight Categories',
             reports: 'Analytics & Reports'
         };
@@ -1090,7 +1114,7 @@ class InsightsManagementApp {
         this.selectedInsight = null;
     }
 
-    async logInsightToCRM() {
+    async pushToSalesforce() {
         if (!this.selectedInsight) return;
 
         this.showLoading(true);
@@ -1098,23 +1122,112 @@ class InsightsManagementApp {
         try {
             await axios.post('/api/insights/log-to-crm', {
                 insightId: this.selectedInsight.id,
-                action: 'logged'
+                action: 'logged',
+                platform: 'salesforce'
             });
 
             // Update insight status
             this.selectedInsight.status = 'logged';
             
             // Show success message
-            this.showNotification('Insight successfully logged to CRM', 'success');
+            this.showNotification('Insight successfully pushed to Salesforce', 'success');
             
             this.closeModal();
             this.renderCurrentView();
         } catch (error) {
-            console.error('Failed to log insight:', error);
-            this.showNotification('Failed to log insight to CRM', 'error');
+            console.error('Failed to push to Salesforce:', error);
+            this.showNotification('Failed to push insight to Salesforce', 'error');
         } finally {
             this.showLoading(false);
         }
+    }
+
+    async pushToRedtail() {
+        if (!this.selectedInsight) return;
+
+        this.showLoading(true);
+        
+        try {
+            await axios.post('/api/insights/log-to-crm', {
+                insightId: this.selectedInsight.id,
+                action: 'logged',
+                platform: 'redtail'
+            });
+
+            // Update insight status
+            this.selectedInsight.status = 'logged';
+            
+            // Show success message
+            this.showNotification('Insight successfully pushed to Redtail CRM', 'success');
+            
+            this.closeModal();
+            this.renderCurrentView();
+        } catch (error) {
+            console.error('Failed to push to Redtail:', error);
+            this.showNotification('Failed to push insight to Redtail CRM', 'error');
+        } finally {
+            this.showLoading(false);
+        }
+    }
+
+    async pushToJump() {
+        if (!this.selectedInsight) return;
+
+        this.showLoading(true);
+        
+        try {
+            await axios.post('/api/insights/log-to-crm', {
+                insightId: this.selectedInsight.id,
+                action: 'logged',
+                platform: 'jump'
+            });
+
+            // Update insight status
+            this.selectedInsight.status = 'logged';
+            
+            // Show success message
+            this.showNotification('Insight successfully pushed to JUMP', 'success');
+            
+            this.closeModal();
+            this.renderCurrentView();
+        } catch (error) {
+            console.error('Failed to push to JUMP:', error);
+            this.showNotification('Failed to push insight to JUMP', 'error');
+        } finally {
+            this.showLoading(false);
+        }
+    }
+
+    scheduleMeeting() {
+        if (!this.selectedInsight) return;
+        
+        const client = this.clients.find(c => c.id === this.selectedInsight.clientId);
+        this.showNotification(`Opening Microsoft Meeting Scheduler for ${client?.fullName}`, 'info');
+        this.closeModal();
+    }
+
+    callClient() {
+        if (!this.selectedInsight) return;
+        
+        const client = this.clients.find(c => c.id === this.selectedInsight.clientId);
+        this.showNotification(`Initiating Microsoft Teams call with ${client?.fullName}`, 'info');
+        this.closeModal();
+    }
+
+    emailClient() {
+        if (!this.selectedInsight) return;
+        
+        const client = this.clients.find(c => c.id === this.selectedInsight.clientId);
+        this.showNotification(`Opening Microsoft Outlook to email ${client?.fullName}`, 'info');
+        this.closeModal();
+    }
+
+    chatClient() {
+        if (!this.selectedInsight) return;
+        
+        const client = this.clients.find(c => c.id === this.selectedInsight.clientId);
+        this.showNotification(`Starting Microsoft Teams chat with ${client?.fullName}`, 'info');
+        this.closeModal();
     }
 
     async dismissInsight() {
