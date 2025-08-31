@@ -1137,10 +1137,6 @@ class InsightsManagementApp {
         document.getElementById('chatClient').addEventListener('click', () => {
             this.chatClient();
         });
-
-        document.getElementById('dismissInsight').addEventListener('click', () => {
-            this.dismissInsight();
-        });
     }
 
     switchView(viewName) {
@@ -1511,6 +1507,9 @@ class InsightsManagementApp {
                             <button id="thumbsDownBtn" class="p-2 rounded-full hover:bg-red-100 transition-colors" title="Mark as not useful">
                                 <i class="fas fa-thumbs-down text-lg text-gray-400 hover:text-red-600"></i>
                             </button>
+                            <button id="dismissInsight" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 ml-2">
+                                <i class="fas fa-trash mr-2"></i>Delete
+                            </button>
                         </div>
                     </div>
                     <div class="flex flex-wrap gap-2 mb-4">
@@ -1559,13 +1558,17 @@ class InsightsManagementApp {
 
         document.getElementById('insightModal').classList.remove('hidden');
 
-        // Bind thumbs up/down events
+        // Bind thumbs up/down and delete events
         document.getElementById('thumbsUpBtn').addEventListener('click', () => {
             this.rateInsight('positive');
         });
 
         document.getElementById('thumbsDownBtn').addEventListener('click', () => {
             this.rateInsight('negative');
+        });
+
+        document.getElementById('dismissInsight').addEventListener('click', () => {
+            this.dismissInsight();
         });
     }
 
