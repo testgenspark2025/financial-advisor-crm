@@ -700,6 +700,39 @@ app.post('/api/insights/dismiss', (req, res) => {
     }
 });
 
+// Rate insight
+app.post('/api/insights/rate', (req, res) => {
+    try {
+        const { insightId, rating, timestamp } = req.body;
+        const insightIndex = insights.findIndex(i => i.id === insightId);
+        
+        if (insightIndex === -1) {
+            return res.status(404).json({ error: 'Insight not found' });
+        }
+
+        insights[insightIndex].userRating = rating;
+        insights[insightIndex].ratedAt = timestamp;
+
+        // Log the rating
+        crmLogs.push({
+            id: `log_${Date.now()}`,
+            insightId,
+            action: 'rated',
+            rating,
+            timestamp: new Date(),
+            clientId: insights[insightIndex].clientId,
+            categoryId: insights[insightIndex].categoryId
+        });
+
+        res.json({ 
+            message: 'Insight rating saved successfully',
+            insight: insights[insightIndex]
+        });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to save insight rating' });
+    }
+});
+
 // Get CRM logs
 app.get('/api/insights/logs', (req, res) => {
     try {
@@ -820,6 +853,7 @@ app.listen(port, '0.0.0.0', () => {
     console.log('  GET  /api/insights/categories - Get all categories');
     console.log('  POST /api/insights/log-to-crm - Log insight to CRM');
     console.log('  POST /api/insights/dismiss - Dismiss insight');
+    console.log('  POST /api/insights/rate - Rate insight usefulness');
     console.log('  GET  /api/insights/dashboard/stats - Dashboard statistics');
 });
 

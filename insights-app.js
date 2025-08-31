@@ -1502,7 +1502,17 @@ class InsightsManagementApp {
         document.getElementById('modalContent').innerHTML = `
             <div class="space-y-6">
                 <div>
-                    <h4 class="text-lg font-semibold text-slate-800 mb-2">${this.selectedInsight.title}</h4>
+                    <div class="flex items-center justify-between mb-2">
+                        <h4 class="text-lg font-semibold text-slate-800 flex-1">${this.selectedInsight.title}</h4>
+                        <div class="flex items-center space-x-2 ml-4">
+                            <button id="thumbsUpBtn" class="p-2 rounded-full hover:bg-green-100 transition-colors" title="Mark as useful">
+                                <i class="fas fa-thumbs-up text-lg text-gray-400 hover:text-green-600"></i>
+                            </button>
+                            <button id="thumbsDownBtn" class="p-2 rounded-full hover:bg-red-100 transition-colors" title="Mark as not useful">
+                                <i class="fas fa-thumbs-down text-lg text-gray-400 hover:text-red-600"></i>
+                            </button>
+                        </div>
+                    </div>
                     <div class="flex flex-wrap gap-2 mb-4">
                         <span class="insight-tag px-3 py-1 rounded-full text-sm">${category?.name}</span>
                         <span class="wealth-badge ${this.selectedInsight.wealthSegment} text-white px-3 py-1 rounded-full text-sm">
@@ -1548,6 +1558,15 @@ class InsightsManagementApp {
         `;
 
         document.getElementById('insightModal').classList.remove('hidden');
+
+        // Bind thumbs up/down events
+        document.getElementById('thumbsUpBtn').addEventListener('click', () => {
+            this.rateInsight('positive');
+        });
+
+        document.getElementById('thumbsDownBtn').addEventListener('click', () => {
+            this.rateInsight('negative');
+        });
     }
 
     closeModal() {
@@ -1669,6 +1688,40 @@ class InsightsManagementApp {
         const client = this.clients.find(c => c.id === this.selectedInsight.clientId);
         this.showNotification(`Starting Microsoft Teams chat with ${client?.fullName}`, 'info');
         this.closeModal();
+    }
+
+    async rateInsight(rating) {
+        if (!this.selectedInsight) return;
+
+        try {
+            await axios.post('/api/insights/rate', {
+                insightId: this.selectedInsight.id,
+                rating: rating,
+                timestamp: new Date().toISOString()
+            });
+
+            // Update the UI to show the rating
+            const thumbsUpBtn = document.getElementById('thumbsUpBtn');
+            const thumbsDownBtn = document.getElementById('thumbsDownBtn');
+            
+            if (rating === 'positive') {
+                thumbsUpBtn.innerHTML = '<i class="fas fa-thumbs-up text-lg text-green-600"></i>';
+                thumbsDownBtn.innerHTML = '<i class="fas fa-thumbs-down text-lg text-gray-400"></i>';
+                this.showNotification('Insight marked as useful - thank you for your feedback!', 'success');
+            } else {
+                thumbsUpBtn.innerHTML = '<i class="fas fa-thumbs-up text-lg text-gray-400"></i>';
+                thumbsDownBtn.innerHTML = '<i class="fas fa-thumbs-down text-lg text-red-600"></i>';
+                this.showNotification('Insight marked as not useful - we will improve future recommendations', 'info');
+            }
+
+            // Store rating locally
+            this.selectedInsight.userRating = rating;
+            this.selectedInsight.ratedAt = new Date();
+
+        } catch (error) {
+            console.error('Failed to rate insight:', error);
+            this.showNotification('Failed to save rating', 'error');
+        }
     }
 
     async dismissInsight() {
