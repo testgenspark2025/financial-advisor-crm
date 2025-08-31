@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Advisor Outlook</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .email-item:hover {
+            background-color: #f8fafc;
+        }
+        .email-item.selected {
+            background-color: #e0f2fe;
+            border-left: 4px solid #0284c7;
+        }
+        .email-item.unread {
+            font-weight: 600;
+            background-color: #fefefe;
+        }
+        .client-insights {
+            transition: transform 0.3s ease;
+        }
+        .segment-filter.active {
+            background-color: #0284c7;
+            color: white;
+        }
+        .folder-item.active {
+            background-color: #e0f2fe;
+            color: #0284c7;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div id="app" class="h-screen flex flex-col">
+        <!-- Header -->
+        <header class="bg-blue-600 text-white px-6 py-3 shadow-lg">
+            <div class="flex justify-between items-center">
+                <h1 class="text-2xl font-bold">Financial Advisor Outlook</h1>
+                <div class="flex items-center space-x-4">
+                    <span class="text-blue-100">David Smith</span>
+                    <div class="flex space-x-2">
+                        <button id="newEmailBtn" class="bg-blue-700 hover:bg-blue-800 px-3 py-1 rounded text-sm">
+                            <i class="fas fa-plus mr-1"></i>New Email
+                        </button>
+                        <button id="replyBtn" class="bg-blue-700 hover:bg-blue-800 px-3 py-1 rounded text-sm">
+                            <i class="fas fa-reply mr-1"></i>Reply
+                        </button>
+                        <button id="meetingBtn" class="bg-green-600 hover:bg-green-700 px-3 py-1 rounded text-sm">
+                            <i class="fas fa-calendar mr-1"></i>Meeting
+                        </button>
+                        <button id="callBtn" class="bg-orange-600 hover:bg-orange-700 px-3 py-1 rounded text-sm">
+                            <i class="fas fa-phone mr-1"></i>Call
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex">
+            <!-- Left Sidebar -->
+            <div class="w-64 bg-white border-r border-gray-200 flex flex-col">
+                <!-- Folders -->
+                <div class="p-4 border-b border-gray-200">
+                    <h3 class="text-sm font-semibold text-gray-700 mb-2">Folders</h3>
+                    <div class="space-y-1">
+                        <div class="folder-item active px-3 py-2 rounded cursor-pointer text-sm" data-folder="inbox">
+                            <i class="fas fa-inbox mr-2"></i>Inbox
+                        </div>
+                        <div class="folder-item px-3 py-2 rounded cursor-pointer text-sm hover:bg-gray-100" data-folder="sent">
+                            <i class="fas fa-paper-plane mr-2"></i>Sent Items
+                        </div>
+                        <div class="folder-item px-3 py-2 rounded cursor-pointer text-sm hover:bg-gray-100" data-folder="drafts">
+                            <i class="fas fa-file-alt mr-2"></i>Drafts
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Client Segments -->
+                <div class="p-4">
+                    <h3 class="text-sm font-semibold text-gray-700 mb-2">Client Segments</h3>
+                    <div class="space-y-1">
+                        <div class="segment-filter px-3 py-2 rounded cursor-pointer text-xs hover:bg-gray-100" data-segment="all">
+                            All Clients
+                        </div>
+                        <div class="segment-filter px-3 py-2 rounded cursor-pointer text-xs hover:bg-gray-100" data-segment="ultra-high">
+                            Ultra High Net Worth
+                        </div>
+                        <div class="segment-filter px-3 py-2 rounded cursor-pointer text-xs hover:bg-gray-100" data-segment="high">
+                            High Net Worth
+                        </div>
+                        <div class="segment-filter px-3 py-2 rounded cursor-pointer text-xs hover:bg-gray-100" data-segment="affluent">
+                            Affluent
+                        </div>
+                        <div class="segment-filter px-3 py-2 rounded cursor-pointer text-xs hover:bg-gray-100" data-segment="mass-affluent">
+                            Mass Affluent
+                        </div>
+                        <div class="segment-filter px-3 py-2 rounded cursor-pointer text-xs hover:bg-gray-100" data-segment="emerging">
+                            Emerging Wealth
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email List -->
+            <div class="flex-1 bg-white">
+                <div class="p-4 border-b border-gray-200">
+                    <h2 class="text-lg font-semibold">Inbox</h2>
+                </div>
+                <div id="emailList" class="overflow-y-auto" style="height: calc(100vh - 140px);">
+                    <!-- Email items will be populated here -->
+                </div>
+            </div>
+
+            <!-- Client Insights Panel -->
+            <div id="clientInsights" class="w-96 bg-white border-l border-gray-200 client-insights transform translate-x-full" style="transition: transform 0.3s ease;">
+                <div class="p-4 border-b border-gray-200 bg-blue-50">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-lg font-semibold text-blue-900">Client Insights</h3>
+                        <button id="closeInsights" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="insightsContent" class="p-4 overflow-y-auto" style="height: calc(100vh - 140px);">
+                    <!-- Client insights will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Email Compose Modal -->
+    <div id="composeModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center h-full p-4">
+            <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl h-5/6">
+                <div class="p-6 border-b border-gray-200">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-lg font-semibold">New Email</h3>
+                        <button id="closeCompose" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-6 flex-1">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">To</label>
+                            <input id="composeTo" type="email" class="w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="Enter recipient email">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+                            <input id="composeSubject" type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="Enter subject">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                            <textarea id="composeBody" rows="12" class="w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="Enter your message"></textarea>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex space-x-3">
+                        <button id="sendBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">
+                            <i class="fas fa-paper-plane mr-1"></i>Send
+                        </button>
+                        <button id="saveDraftBtn" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg">
+                            <i class="fas fa-save mr-1"></i>Save Draft
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+2025-08-31T13:20:00: Financial Advisor Outlook server running at http://0.0.0.0:3000
+2025-08-31T13:20:00: Available endpoints:
+2025-08-31T13:20:00:   GET  / - Main application
+2025-08-31T13:20:00:   GET  /api/emails - Get email list
+2025-08-31T13:20:00:   GET  /api/client/:email - Get client data
+2025-08-31T13:20:00:   GET  /api/email/:id - Get specific email
+2025-08-31T13:20:00:   POST /api/send-email - Send email
+2025-08-31T13:20:00:   POST /api/save-draft - Save draft
