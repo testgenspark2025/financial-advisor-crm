@@ -40,7 +40,17 @@ const initializeCategories = () => {
         { id: 'compliance-risk', name: 'Compliance & Risk', icon: 'fas fa-exclamation-triangle', color: '#dc2626' },
         { id: 'portfolio-management', name: 'Portfolio Management', icon: 'fas fa-briefcase', color: '#7c3aed' },
         { id: 'client-onboarding', name: 'Client Onboarding', icon: 'fas fa-user-plus', color: '#059669' },
-        { id: 'market-opportunities', name: 'Market Opportunities', icon: 'fas fa-trending-up', color: '#0ea5e9' }
+        { id: 'market-opportunities', name: 'Market Opportunities', icon: 'fas fa-trending-up', color: '#0ea5e9' },
+        { id: 'insurance-products', name: 'Insurance Products', icon: 'fas fa-shield-virus', color: '#be123c' },
+        { id: 'annuities', name: 'Annuities', icon: 'fas fa-calendar-check', color: '#a21caf' },
+        { id: 'performance-drivers', name: 'Performance Drivers', icon: 'fas fa-chart-area', color: '#1d4ed8' },
+        { id: 'product-opportunity', name: 'Product Opportunities', icon: 'fas fa-box-open', color: '#ea580c' },
+        { id: 'savings-checking', name: 'Savings & Checking', icon: 'fas fa-university', color: '#16a34a' },
+        { id: 'research-articles', name: 'Research Articles', icon: 'fas fa-newspaper', color: '#7c2d12' },
+        { id: 'trade-execution', name: 'Trade Execution', icon: 'fas fa-exchange', color: '#4338ca' },
+        { id: 'marketing', name: 'Marketing', icon: 'fas fa-bullhorn', color: '#c2410c' },
+        { id: 'client-attrition', name: 'Client Attrition', icon: 'fas fa-user-times', color: '#dc2626' },
+        { id: 'corporate-actions', name: 'Corporate Actions', icon: 'fas fa-gavel', color: '#374151' }
     ];
 };
 
@@ -57,9 +67,9 @@ const generateMockData = () => {
 
     const occupations = ['Chief Executive Officer', 'Chief Technology Officer', 'Chief Financial Officer', 'Managing Director', 'Senior Vice President', 'Vice President', 'General Manager', 'Director of Operations', 'Investment Manager', 'Portfolio Manager', 'Venture Capitalist', 'Private Equity Partner', 'Investment Banker', 'Hedge Fund Manager', 'Real Estate Developer', 'Business Owner', 'Entrepreneur', 'Medical Doctor', 'Surgeon', 'Attorney', 'Partner', 'Consultant', 'Engineer', 'Architect', 'Professor', 'Researcher', 'Executive Producer', 'Professional Athlete', 'Entertainment Executive', 'Media Producer'];
 
-    // Generate 150 clients
+    // Generate 250 clients
     clients = [];
-    for (let i = 0; i < 150; i++) {
+    for (let i = 0; i < 250; i++) {
         const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
         const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
         const company = companies[Math.floor(Math.random() * companies.length)];
@@ -102,7 +112,7 @@ const generateMockData = () => {
         }
     });
 
-    console.log(`Generated ${clients.length} clients and ${insights.length} insights`);
+    console.log(`Generated ${clients.length} clients and ${insights.length} insights across ${categories.length} categories`);
 };
 
 const generateAUM = () => {
@@ -368,6 +378,186 @@ const generateInsightForCategory = (category, client, insightId) => {
                 description: `${client.fullName}'s portfolio presents securities-based lending opportunities for enhanced liquidity management.`,
                 actionRequired: 'Evaluate securities-based lending strategy and terms',
                 potentialValue: Math.floor(Math.random() * 200000) + 30000
+            };
+
+        case 'insurance-products':
+            const insuranceTitles = [
+                'Term Life Insurance Gap Analysis Required',
+                'Whole Life Policy Optimization Opportunity',
+                'Universal Life Insurance Conversion Review',
+                'Disability Insurance Coverage Assessment',
+                'Long-Term Care Insurance Evaluation',
+                'Key Person Insurance for Business',
+                'Umbrella Policy Coverage Review'
+            ];
+            return {
+                ...baseInsight,
+                title: insuranceTitles[Math.floor(Math.random() * insuranceTitles.length)],
+                description: `${client.fullName}'s insurance coverage requires comprehensive review for optimal protection and tax efficiency strategies.`,
+                actionRequired: 'Schedule comprehensive insurance review',
+                potentialValue: Math.floor(Math.random() * 200000) + 25000
+            };
+
+        case 'annuities':
+            const annuityTitles = [
+                'Fixed Annuity Income Strategy Review',
+                'Variable Annuity Performance Analysis',
+                'Immediate Annuity Payout Optimization',
+                'Deferred Annuity Tax Strategy Enhancement',
+                'Index Annuity Growth Opportunity',
+                'Qualified Longevity Annuity Contract (QLAC) Evaluation',
+                'Annuity Surrender Charge Analysis'
+            ];
+            return {
+                ...baseInsight,
+                title: annuityTitles[Math.floor(Math.random() * annuityTitles.length)],
+                description: `${client.fullName}'s retirement income strategy could benefit from annuity products designed for guaranteed income and tax-deferred growth.`,
+                actionRequired: 'Review annuity product options and features',
+                potentialValue: Math.floor(Math.random() * 300000) + 50000
+            };
+
+        case 'performance-drivers':
+            const performanceTitles = [
+                'Macro Economic Factors Impact Analysis',
+                'Sector Rotation Strategy Optimization',
+                'Interest Rate Environment Portfolio Adjustment',
+                'Currency Hedging Strategy Review',
+                'Inflation Protection Asset Allocation',
+                'Geopolitical Risk Assessment Required',
+                'Market Volatility Hedging Opportunity'
+            ];
+            return {
+                ...baseInsight,
+                title: performanceTitles[Math.floor(Math.random() * performanceTitles.length)],
+                description: `Current macroeconomic conditions present strategic opportunities for ${client.fullName} to optimize portfolio positioning and risk management.`,
+                actionRequired: 'Implement tactical asset allocation adjustments',
+                potentialValue: Math.floor(Math.random() * 175000) + 25000
+            };
+
+        case 'product-opportunity':
+            const productTitles = [
+                'Low-Cost ETF Replacement Opportunity',
+                'High-Yield Bond Fund Optimization',
+                'Real Estate Investment Trust (REIT) Addition',
+                'Infrastructure Fund Allocation Strategy',
+                'International Diversification Enhancement',
+                'ESG Investment Integration Opportunity',
+                'Alternative Investment Platform Access'
+            ];
+            return {
+                ...baseInsight,
+                title: productTitles[Math.floor(Math.random() * productTitles.length)],
+                description: `Product analysis reveals opportunities for ${client.fullName} to enhance portfolio performance through strategic fund selection and cost optimization.`,
+                actionRequired: 'Review recommended investment products and strategies',
+                potentialValue: Math.floor(Math.random() * 250000) + 40000
+            };
+
+        case 'savings-checking':
+            const savingsTitles = [
+                'High-Yield Savings Account Opportunity',
+                'Premium Checking Account Benefits Review',
+                'Cash Management Optimization Strategy',
+                'Banking Relationship Consolidation',
+                'Interest Rate Arbitrage Opportunity',
+                'FDIC Insurance Optimization Analysis',
+                'Liquidity Management Enhancement'
+            ];
+            return {
+                ...baseInsight,
+                title: savingsTitles[Math.floor(Math.random() * savingsTitles.length)],
+                description: `Banking analysis shows ${client.fullName} could optimize cash management through enhanced savings and checking account strategies.`,
+                actionRequired: 'Review high-yield savings account options',
+                potentialValue: Math.floor(Math.random() * 50000) + 5000
+            };
+
+        case 'research-articles':
+            const researchTitles = [
+                'Credit Rating Upgrade Impact Analysis',
+                'Analyst Recommendation Change Alert',
+                'Sector Outlook Revision Notification',
+                'Fund Manager Commentary Review',
+                'Market Research Update Required',
+                'Investment Thesis Validation Analysis',
+                'Third-Party Research Integration'
+            ];
+            return {
+                ...baseInsight,
+                title: researchTitles[Math.floor(Math.random() * researchTitles.length)],
+                description: `Recent research publications indicate significant implications for ${client.fullName}'s portfolio positions and strategic allocations.`,
+                actionRequired: 'Review research implications for current holdings',
+                potentialValue: Math.floor(Math.random() * 100000) + 15000
+            };
+
+        case 'trade-execution':
+            const tradeTitles = [
+                'Trade Execution Quality Analysis',
+                'Best Execution Policy Review Required',
+                'Order Routing Optimization Opportunity',
+                'Trade Settlement Issue Resolution',
+                'Execution Cost Reduction Strategy',
+                'Market Impact Analysis for Large Orders',
+                'Trading Platform Enhancement Available'
+            ];
+            return {
+                ...baseInsight,
+                title: tradeTitles[Math.floor(Math.random() * tradeTitles.length)],
+                description: `Trade execution analysis for ${client.fullName} reveals opportunities to enhance execution quality and reduce transaction costs.`,
+                actionRequired: 'Review trade execution quality and costs',
+                potentialValue: Math.floor(Math.random() * 75000) + 10000
+            };
+
+        case 'marketing':
+            const marketingTitles = [
+                'Personalized Market Update Campaign',
+                'Educational Content Delivery Opportunity',
+                'Investment Webinar Invitation',
+                'Quarterly Newsletter Customization',
+                'Market Commentary Distribution',
+                'Financial Planning Seminar Invitation',
+                'Tax Strategy Workshop Notification'
+            ];
+            return {
+                ...baseInsight,
+                title: marketingTitles[Math.floor(Math.random() * marketingTitles.length)],
+                description: `Marketing analysis indicates ${client.fullName} would benefit from customized educational content and market insights delivery.`,
+                actionRequired: 'Send personalized market update and insights',
+                potentialValue: Math.floor(Math.random() * 25000) + 2500
+            };
+
+        case 'client-attrition':
+            const attritionTitles = [
+                'Client Retention Risk Alert - High Priority',
+                'Engagement Pattern Analysis - Action Required',
+                'Satisfaction Score Decline Detected',
+                'Communication Frequency Drop Alert',
+                'Service Level Enhancement Opportunity',
+                'Relationship Strengthening Initiative Required',
+                'Proactive Retention Strategy Activation'
+            ];
+            return {
+                ...baseInsight,
+                title: attritionTitles[Math.floor(Math.random() * attritionTitles.length)],
+                description: `AI/ML analysis indicates ${client.fullName} shows patterns consistent with potential attrition risk, requiring immediate attention and intervention.`,
+                actionRequired: 'Implement immediate client retention strategy',
+                potentialValue: Math.floor(Math.random() * 500000) + 100000
+            };
+
+        case 'corporate-actions':
+            const corporateTitles = [
+                'Dividend Reinvestment Election Required',
+                'Stock Split Adjustment Impact Analysis',
+                'Merger & Acquisition Decision Point',
+                'Rights Offering Participation Evaluation',
+                'Spin-off Distribution Strategy Review',
+                'Corporate Restructuring Impact Assessment',
+                'Special Dividend Tax Implication Review'
+            ];
+            return {
+                ...baseInsight,
+                title: corporateTitles[Math.floor(Math.random() * corporateTitles.length)],
+                description: `Corporate actions affecting ${client.fullName}'s holdings require strategic decisions to optimize outcomes and maintain portfolio objectives.`,
+                actionRequired: 'Review corporate action implications and options',
+                potentialValue: Math.floor(Math.random() * 150000) + 20000
             };
 
         default:

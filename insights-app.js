@@ -51,7 +51,17 @@ class InsightsManagementApp {
             { id: 'compliance-risk', name: 'Compliance & Risk', icon: 'fas fa-exclamation-triangle', color: '#dc2626' },
             { id: 'portfolio-management', name: 'Portfolio Management', icon: 'fas fa-briefcase', color: '#7c3aed' },
             { id: 'client-onboarding', name: 'Client Onboarding', icon: 'fas fa-user-plus', color: '#059669' },
-            { id: 'market-opportunities', name: 'Market Opportunities', icon: 'fas fa-trending-up', color: '#0ea5e9' }
+            { id: 'market-opportunities', name: 'Market Opportunities', icon: 'fas fa-trending-up', color: '#0ea5e9' },
+            { id: 'insurance-products', name: 'Insurance Products', icon: 'fas fa-shield-virus', color: '#be123c' },
+            { id: 'annuities', name: 'Annuities', icon: 'fas fa-calendar-check', color: '#a21caf' },
+            { id: 'performance-drivers', name: 'Performance Drivers', icon: 'fas fa-chart-area', color: '#1d4ed8' },
+            { id: 'product-opportunity', name: 'Product Opportunities', icon: 'fas fa-box-open', color: '#ea580c' },
+            { id: 'savings-checking', name: 'Savings & Checking', icon: 'fas fa-university', color: '#16a34a' },
+            { id: 'research-articles', name: 'Research Articles', icon: 'fas fa-newspaper', color: '#7c2d12' },
+            { id: 'trade-execution', name: 'Trade Execution', icon: 'fas fa-exchange', color: '#4338ca' },
+            { id: 'marketing', name: 'Marketing', icon: 'fas fa-bullhorn', color: '#c2410c' },
+            { id: 'client-attrition', name: 'Client Attrition', icon: 'fas fa-user-times', color: '#dc2626' },
+            { id: 'corporate-actions', name: 'Corporate Actions', icon: 'fas fa-gavel', color: '#374151' }
         ];
 
         // Load data from API
@@ -87,7 +97,7 @@ class InsightsManagementApp {
 
         this.clients = [];
         
-        for (let i = 0; i < 150; i++) {
+        for (let i = 0; i < 250; i++) {
             const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
             const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
             const company = companies[Math.floor(Math.random() * companies.length)];
@@ -283,6 +293,96 @@ class InsightsManagementApp {
                     description: this.getLifeEventDescription(client),
                     actionRequired: this.getLifeEventAction(),
                     potentialValue: Math.floor(Math.random() * 75000) + 5000
+                };
+
+            case 'insurance-products':
+                return {
+                    ...baseInsight,
+                    title: this.getInsuranceProductTitle(client),
+                    description: this.getInsuranceProductDescription(client),
+                    actionRequired: this.getInsuranceProductAction(),
+                    potentialValue: Math.floor(Math.random() * 200000) + 25000
+                };
+
+            case 'annuities':
+                return {
+                    ...baseInsight,
+                    title: this.getAnnuityTitle(client),
+                    description: this.getAnnuityDescription(client),
+                    actionRequired: this.getAnnuityAction(),
+                    potentialValue: Math.floor(Math.random() * 300000) + 50000
+                };
+
+            case 'performance-drivers':
+                return {
+                    ...baseInsight,
+                    title: this.getPerformanceDriverTitle(client),
+                    description: this.getPerformanceDriverDescription(client),
+                    actionRequired: this.getPerformanceDriverAction(),
+                    potentialValue: Math.floor(Math.random() * 175000) + 25000
+                };
+
+            case 'product-opportunity':
+                return {
+                    ...baseInsight,
+                    title: this.getProductOpportunityTitle(client),
+                    description: this.getProductOpportunityDescription(client),
+                    actionRequired: this.getProductOpportunityAction(),
+                    potentialValue: Math.floor(Math.random() * 250000) + 40000
+                };
+
+            case 'savings-checking':
+                return {
+                    ...baseInsight,
+                    title: this.getSavingsCheckingTitle(client),
+                    description: this.getSavingsCheckingDescription(client),
+                    actionRequired: this.getSavingsCheckingAction(),
+                    potentialValue: Math.floor(Math.random() * 50000) + 5000
+                };
+
+            case 'research-articles':
+                return {
+                    ...baseInsight,
+                    title: this.getResearchArticleTitle(client),
+                    description: this.getResearchArticleDescription(client),
+                    actionRequired: this.getResearchArticleAction(),
+                    potentialValue: Math.floor(Math.random() * 100000) + 15000
+                };
+
+            case 'trade-execution':
+                return {
+                    ...baseInsight,
+                    title: this.getTradeExecutionTitle(client),
+                    description: this.getTradeExecutionDescription(client),
+                    actionRequired: this.getTradeExecutionAction(),
+                    potentialValue: Math.floor(Math.random() * 75000) + 10000
+                };
+
+            case 'marketing':
+                return {
+                    ...baseInsight,
+                    title: this.getMarketingTitle(client),
+                    description: this.getMarketingDescription(client),
+                    actionRequired: this.getMarketingAction(),
+                    potentialValue: Math.floor(Math.random() * 25000) + 2500
+                };
+
+            case 'client-attrition':
+                return {
+                    ...baseInsight,
+                    title: this.getClientAttritionTitle(client),
+                    description: this.getClientAttritionDescription(client),
+                    actionRequired: this.getClientAttritionAction(),
+                    potentialValue: Math.floor(Math.random() * 500000) + 100000
+                };
+
+            case 'corporate-actions':
+                return {
+                    ...baseInsight,
+                    title: this.getCorporateActionTitle(client),
+                    description: this.getCorporateActionDescription(client),
+                    actionRequired: this.getCorporateActionAction(),
+                    potentialValue: Math.floor(Math.random() * 150000) + 20000
                 };
 
             default:
@@ -622,6 +722,347 @@ class InsightsManagementApp {
             'Review insurance coverage needs',
             'Propose goal strategy adjustments',
             'Celebrate milestone achievements'
+        ];
+        return actions[Math.floor(Math.random() * actions.length)];
+    }
+
+    // New insight generation methods
+    getInsuranceProductTitle(client) {
+        const titles = [
+            'Term Life Insurance Gap Analysis Required',
+            'Whole Life Policy Optimization Opportunity',
+            'Universal Life Insurance Conversion Review',
+            'Disability Insurance Coverage Assessment',
+            'Long-Term Care Insurance Evaluation',
+            'Key Person Insurance for Business',
+            'Umbrella Policy Coverage Review'
+        ];
+        return titles[Math.floor(Math.random() * titles.length)];
+    }
+
+    getInsuranceProductDescription(client) {
+        const descriptions = [
+            `${client.fullName}'s insurance coverage requires comprehensive review for optimal protection and tax efficiency strategies.`,
+            `Analysis shows ${client.firstName} may benefit from updated life insurance products with better terms and coverage options.`,
+            `Current insurance portfolio presents opportunities for ${client.firstName} to enhance protection while reducing premium costs.`,
+            `Insurance needs assessment indicates ${client.firstName} should consider additional coverage for comprehensive risk management.`
+        ];
+        return descriptions[Math.floor(Math.random() * descriptions.length)];
+    }
+
+    getInsuranceProductAction() {
+        const actions = [
+            'Schedule comprehensive insurance review',
+            'Obtain updated insurance quotes and analysis',
+            'Review beneficiary designations and coverage levels',
+            'Analyze premium optimization opportunities',
+            'Coordinate with insurance specialists'
+        ];
+        return actions[Math.floor(Math.random() * actions.length)];
+    }
+
+    getAnnuityTitle(client) {
+        const titles = [
+            'Fixed Annuity Income Strategy Review',
+            'Variable Annuity Performance Analysis',
+            'Immediate Annuity Payout Optimization',
+            'Deferred Annuity Tax Strategy Enhancement',
+            'Index Annuity Growth Opportunity',
+            'Qualified Longevity Annuity Contract (QLAC) Evaluation',
+            'Annuity Surrender Charge Analysis'
+        ];
+        return titles[Math.floor(Math.random() * titles.length)];
+    }
+
+    getAnnuityDescription(client) {
+        const descriptions = [
+            `${client.fullName}'s retirement income strategy could benefit from annuity products designed for guaranteed income and tax-deferred growth.`,
+            `Current market conditions present favorable opportunities for ${client.firstName} to enhance retirement security through strategic annuity allocation.`,
+            `Analysis indicates ${client.firstName} may optimize retirement income through diversified annuity products with varying payout structures.`,
+            `Annuity portfolio review shows opportunities for ${client.firstName} to improve income certainty and tax efficiency.`
+        ];
+        return descriptions[Math.floor(Math.random() * descriptions.length)];
+    }
+
+    getAnnuityAction() {
+        const actions = [
+            'Review annuity product options and features',
+            'Analyze income guarantees and payout structures',
+            'Compare fixed vs variable annuity benefits',
+            'Evaluate tax implications of annuity strategies',
+            'Schedule retirement income planning consultation'
+        ];
+        return actions[Math.floor(Math.random() * actions.length)];
+    }
+
+    getPerformanceDriverTitle(client) {
+        const titles = [
+            'Macro Economic Factors Impact Analysis',
+            'Sector Rotation Strategy Optimization',
+            'Interest Rate Environment Portfolio Adjustment',
+            'Currency Hedging Strategy Review',
+            'Inflation Protection Asset Allocation',
+            'Geopolitical Risk Assessment Required',
+            'Market Volatility Hedging Opportunity'
+        ];
+        return titles[Math.floor(Math.random() * titles.length)];
+    }
+
+    getPerformanceDriverDescription(client) {
+        const descriptions = [
+            `Current macroeconomic conditions present strategic opportunities for ${client.fullName} to optimize portfolio positioning and risk management.`,
+            `Market analysis indicates ${client.firstName} should consider portfolio adjustments based on key performance drivers and economic indicators.`,
+            `Performance attribution analysis shows ${client.firstName}'s portfolio could benefit from strategic allocation changes based on market factors.`,
+            `Economic research suggests ${client.firstName} may enhance returns through tactical positioning aligned with performance drivers.`
+        ];
+        return descriptions[Math.floor(Math.random() * descriptions.length)];
+    }
+
+    getPerformanceDriverAction() {
+        const actions = [
+            'Implement tactical asset allocation adjustments',
+            'Review economic indicator impact on portfolio',
+            'Analyze sector and geographic exposure optimization',
+            'Evaluate hedging strategies for risk management',
+            'Schedule macro-economic portfolio review'
+        ];
+        return actions[Math.floor(Math.random() * actions.length)];
+    }
+
+    getProductOpportunityTitle(client) {
+        const titles = [
+            'Low-Cost ETF Replacement Opportunity',
+            'High-Yield Bond Fund Optimization',
+            'Real Estate Investment Trust (REIT) Addition',
+            'Infrastructure Fund Allocation Strategy',
+            'International Diversification Enhancement',
+            'ESG Investment Integration Opportunity',
+            'Alternative Investment Platform Access'
+        ];
+        return titles[Math.floor(Math.random() * titles.length)];
+    }
+
+    getProductOpportunityDescription(client) {
+        const descriptions = [
+            `Product analysis reveals opportunities for ${client.fullName} to enhance portfolio performance through strategic fund selection and cost optimization.`,
+            `Current investment landscape presents favorable conditions for ${client.firstName} to access new investment products with enhanced features.`,
+            `Portfolio review indicates ${client.firstName} could benefit from diversification through specialized investment products and strategies.`,
+            `Investment research suggests ${client.firstName} may optimize returns through strategic product allocation and expense management.`
+        ];
+        return descriptions[Math.floor(Math.random() * descriptions.length)];
+    }
+
+    getProductOpportunityAction() {
+        const actions = [
+            'Review recommended investment products and strategies',
+            'Analyze expense ratios and performance metrics',
+            'Evaluate diversification benefits of new products',
+            'Schedule investment strategy optimization meeting',
+            'Implement strategic product allocation changes'
+        ];
+        return actions[Math.floor(Math.random() * actions.length)];
+    }
+
+    getSavingsCheckingTitle(client) {
+        const titles = [
+            'High-Yield Savings Account Opportunity',
+            'Premium Checking Account Benefits Review',
+            'Cash Management Optimization Strategy',
+            'Banking Relationship Consolidation',
+            'Interest Rate Arbitrage Opportunity',
+            'FDIC Insurance Optimization Analysis',
+            'Liquidity Management Enhancement'
+        ];
+        return titles[Math.floor(Math.random() * titles.length)];
+    }
+
+    getSavingsCheckingDescription(client) {
+        const descriptions = [
+            `Banking analysis shows ${client.fullName} could optimize cash management through enhanced savings and checking account strategies.`,
+            `Current interest rate environment presents opportunities for ${client.firstName} to improve cash returns through strategic account selection.`,
+            `Cash flow analysis indicates ${client.firstName} may benefit from premium banking products with enhanced features and higher yields.`,
+            `Banking relationship review suggests ${client.firstName} could streamline finances while maximizing cash account benefits.`
+        ];
+        return descriptions[Math.floor(Math.random() * descriptions.length)];
+    }
+
+    getSavingsCheckingAction() {
+        const actions = [
+            'Review high-yield savings account options',
+            'Analyze premium checking account benefits',
+            'Optimize cash management and liquidity strategy',
+            'Evaluate banking relationship consolidation',
+            'Schedule cash management consultation'
+        ];
+        return actions[Math.floor(Math.random() * actions.length)];
+    }
+
+    getResearchArticleTitle(client) {
+        const titles = [
+            'Credit Rating Upgrade Impact Analysis',
+            'Analyst Recommendation Change Alert',
+            'Sector Outlook Revision Notification',
+            'Fund Manager Commentary Review',
+            'Market Research Update Required',
+            'Investment Thesis Validation Analysis',
+            'Third-Party Research Integration'
+        ];
+        return titles[Math.floor(Math.random() * titles.length)];
+    }
+
+    getResearchArticleDescription(client) {
+        const descriptions = [
+            `Recent research publications indicate significant implications for ${client.fullName}'s portfolio positions and strategic allocations.`,
+            `Investment research updates suggest ${client.firstName} should review current holdings based on revised analyst recommendations and ratings.`,
+            `New research findings present opportunities for ${client.firstName} to optimize investment selections based on updated analysis.`,
+            `Research article analysis shows ${client.firstName} may benefit from strategic adjustments based on latest market intelligence.`
+        ];
+        return descriptions[Math.floor(Math.random() * descriptions.length)];
+    }
+
+    getResearchArticleAction() {
+        const actions = [
+            'Review research implications for current holdings',
+            'Analyze rating changes and recommendation updates',
+            'Implement research-based portfolio adjustments',
+            'Schedule research review and strategy discussion',
+            'Evaluate investment thesis based on new research'
+        ];
+        return actions[Math.floor(Math.random() * actions.length)];
+    }
+
+    getTradeExecutionTitle(client) {
+        const titles = [
+            'Trade Execution Quality Analysis',
+            'Best Execution Policy Review Required',
+            'Order Routing Optimization Opportunity',
+            'Trade Settlement Issue Resolution',
+            'Execution Cost Reduction Strategy',
+            'Market Impact Analysis for Large Orders',
+            'Trading Platform Enhancement Available'
+        ];
+        return titles[Math.floor(Math.random() * titles.length)];
+    }
+
+    getTradeExecutionDescription(client) {
+        const descriptions = [
+            `Trade execution analysis for ${client.fullName} reveals opportunities to enhance execution quality and reduce transaction costs.`,
+            `Order flow analysis indicates ${client.firstName} may benefit from optimized trade routing and execution strategies.`,
+            `Execution quality review shows ${client.firstName} could improve portfolio performance through enhanced trading protocols.`,
+            `Trading analysis suggests ${client.firstName} may reduce costs and improve outcomes through strategic execution enhancements.`
+        ];
+        return descriptions[Math.floor(Math.random() * descriptions.length)];
+    }
+
+    getTradeExecutionAction() {
+        const actions = [
+            'Review trade execution quality and costs',
+            'Optimize order routing and execution strategies',
+            'Analyze best execution policy compliance',
+            'Implement trade cost reduction measures',
+            'Schedule execution quality consultation'
+        ];
+        return actions[Math.floor(Math.random() * actions.length)];
+    }
+
+    getMarketingTitle(client) {
+        const titles = [
+            'Personalized Market Update Campaign',
+            'Educational Content Delivery Opportunity',
+            'Investment Webinar Invitation',
+            'Quarterly Newsletter Customization',
+            'Market Commentary Distribution',
+            'Financial Planning Seminar Invitation',
+            'Tax Strategy Workshop Notification'
+        ];
+        return titles[Math.floor(Math.random() * titles.length)];
+    }
+
+    getMarketingDescription(client) {
+        const descriptions = [
+            `Marketing analysis indicates ${client.fullName} would benefit from customized educational content and market insights delivery.`,
+            `Engagement patterns show ${client.firstName} is receptive to targeted financial education and market commentary communications.`,
+            `Communication preferences suggest ${client.firstName} would value personalized marketing materials and educational opportunities.`,
+            `Client profiling indicates ${client.firstName} should receive specialized marketing content aligned with their interests and needs.`
+        ];
+        return descriptions[Math.floor(Math.random() * descriptions.length)];
+    }
+
+    getMarketingAction() {
+        const actions = [
+            'Send personalized market update and insights',
+            'Deliver targeted educational content',
+            'Invite to relevant webinars and seminars',
+            'Customize newsletter and communications',
+            'Schedule educational consultation meeting'
+        ];
+        return actions[Math.floor(Math.random() * actions.length)];
+    }
+
+    getClientAttritionTitle(client) {
+        const titles = [
+            'Client Retention Risk Alert - High Priority',
+            'Engagement Pattern Analysis - Action Required',
+            'Satisfaction Score Decline Detected',
+            'Communication Frequency Drop Alert',
+            'Service Level Enhancement Opportunity',
+            'Relationship Strengthening Initiative Required',
+            'Proactive Retention Strategy Activation'
+        ];
+        return titles[Math.floor(Math.random() * titles.length)];
+    }
+
+    getClientAttritionDescription(client) {
+        const descriptions = [
+            `AI/ML analysis indicates ${client.fullName} shows patterns consistent with potential attrition risk, requiring immediate attention and intervention.`,
+            `Predictive modeling suggests ${client.firstName} may be at risk for account closure based on engagement patterns and satisfaction indicators.`,
+            `Client behavior analytics show ${client.firstName} exhibits warning signs that correlate with potential relationship termination.`,
+            `Attrition prediction model flags ${client.firstName} as requiring proactive retention efforts to maintain the advisory relationship.`
+        ];
+        return descriptions[Math.floor(Math.random() * descriptions.length)];
+    }
+
+    getClientAttritionAction() {
+        const actions = [
+            'Implement immediate client retention strategy',
+            'Schedule urgent relationship review meeting',
+            'Enhance service level and communication frequency',
+            'Address satisfaction concerns proactively',
+            'Deploy personalized retention intervention plan'
+        ];
+        return actions[Math.floor(Math.random() * actions.length)];
+    }
+
+    getCorporateActionTitle(client) {
+        const titles = [
+            'Dividend Reinvestment Election Required',
+            'Stock Split Adjustment Impact Analysis',
+            'Merger & Acquisition Decision Point',
+            'Rights Offering Participation Evaluation',
+            'Spin-off Distribution Strategy Review',
+            'Corporate Restructuring Impact Assessment',
+            'Special Dividend Tax Implication Review'
+        ];
+        return titles[Math.floor(Math.random() * titles.length)];
+    }
+
+    getCorporateActionDescription(client) {
+        const descriptions = [
+            `Corporate actions affecting ${client.fullName}'s holdings require strategic decisions to optimize outcomes and maintain portfolio objectives.`,
+            `Recent corporate announcements impact ${client.firstName}'s positions, creating opportunities for strategic decision-making and optimization.`,
+            `Corporate action notifications indicate ${client.firstName} must make elections that could significantly impact portfolio performance.`,
+            `Upcoming corporate events require ${client.firstName} to evaluate options and make strategic decisions for optimal portfolio outcomes.`
+        ];
+        return descriptions[Math.floor(Math.random() * descriptions.length)];
+    }
+
+    getCorporateActionAction() {
+        const actions = [
+            'Review corporate action implications and options',
+            'Make strategic elections for optimal outcomes',
+            'Analyze tax implications of corporate actions',
+            'Coordinate with tax advisor on election decisions',
+            'Schedule corporate action strategy consultation'
         ];
         return actions[Math.floor(Math.random() * actions.length)];
     }
