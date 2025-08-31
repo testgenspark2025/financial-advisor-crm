@@ -1,0 +1,14 @@
+name = "insights-management-app"
+compatibility_date = "2024-08-31"
+
+[env.production]
+compatibility_date = "2024-08-31"
+
+[[env.production.routes]]
+pattern = "insights-management-app.pages.dev"
+
+[build]
+command = ""
+
+[site]
+bucket = "public"
